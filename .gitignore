@@ -1,3 +1,9 @@
+# Ignore pdf files
+*.pdf
+
+# Ignore excel files
+*.xlsm
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
