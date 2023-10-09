@@ -8,6 +8,7 @@ from pdf_populator.util.PdfWrapper import PdfWrapper
 from pdf_populator.util.VersionManager import VersionManager
 from pdf_populator.exceptions.PdfFillerException import PdfFillerException
 
+
 DATA_SHEET_NAME = "Python Data"     # The name of sheet in excel that contains the field names and their values
 CLIENT_FIELD_NAME = "clientname1_field"
 TEMPLATE_BASE_PATH = "/templates"
@@ -15,12 +16,17 @@ DATA_BASE_PATH = "/data"
 
 def main():
     VersionManager.isLatestVersion()
+    
     template_path_base = PathFinder.findTemplatePath(TEMPLATE_BASE_PATH)
     template_name = MenuSelector.SelectTemplateFile(template_path_base)
+    if template_name is None:
+        return
     template_file_path = f"{template_path_base}/{template_name}"
 
     data_path_base = PathFinder.findDataPath(DATA_BASE_PATH)
     excel_name = MenuSelector.SelectDataFile(data_path_base)
+    if excel_name is None:
+        return
     excel_file_path = f"{data_path_base}/{excel_name}"
 
     wb = openpyxl.load_workbook(excel_file_path, data_only=True)

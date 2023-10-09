@@ -1,5 +1,6 @@
 from pathlib import Path
 
+
 def findTemplatePath(templatesPath):
         templatesPath = Path(templatesPath)
         if templatesPath.exists():

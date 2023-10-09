@@ -28,7 +28,7 @@ def DisplayFileSelection(file_names):
 
     valid_input = False
     while not valid_input:
-        user_input = input("Select a file from below: ")
+        user_input = input("Select a file from above: ")
         try:
             index = int(user_input)
             selected_file = file_names[index - 1]

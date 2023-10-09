@@ -1,6 +1,7 @@
 import openpyxl
 from ..exceptions.PythonDataSheetNotFoundException import PythonDataSheetNotFoundException
 
+
 class WorkbookWrapper:
     def __init__(self, wb: openpyxl.Workbook, data_sheet_name: str):
         self.wb = wb
@@ -9,7 +10,6 @@ class WorkbookWrapper:
         if self.data_sheet_name not in self.wb.sheetnames:
             raise PythonDataSheetNotFoundException(self.data_sheet_name)
         self.LoadDataFromWorkbook()
-        random = 3
 
     def LoadDataFromWorkbook(self) -> None:
         # Loads and stores the key:value pairs from the data sheet name in the excel file to be looked up later
