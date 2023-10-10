@@ -1,3 +1,5 @@
+import logging
+from pathlib import Path
 from .config import PdfPopulatorConfig as config
 from .util.WorkbookWrapper import WorkbookWrapper
 from .util.PdfWrapper import PdfWrapper
@@ -15,8 +17,9 @@ menu = MenuSelector()
 
 class PdfPopulator:
 
-    def __init__(self, path_helper: PathHelper):
+    def __init__(self, path_helper: PathHelper, log: logging.Logger):
         self.path_helper = path_helper
+        self.log = log
 
         self.data_path_base = None
         self.excel_files = []
@@ -29,7 +32,11 @@ class PdfPopulator:
         self.wb_wrapper = None
         self.pdf_wrapper = None
 
+        Path("./data/").mkdir(parents=True, exist_ok=True)
+        Path("./templates/").mkdir(parents=True, exist_ok=True)
+
     def LoadData(self):
+        
         self.data_path_base = self.path_helper.findFolderPath(config.EXCEL_FOLDER_NAME)
         if self.data_path_base is None:
             raise NoDataFolderFoundException()
@@ -55,7 +62,7 @@ class PdfPopulator:
         
         self.excel_file_name = menu.SelectDataFile(self.excel_files)
         excel_file_path = f"{self.data_path_base}/{self.excel_file_name}"
-        self.wb_wrapper = WorkbookWrapper(excel_file_path, config.DATA_SHEET_NAME)
+        self.wb_wrapper = WorkbookWrapper(excel_file_path, config.DATA_SHEET_NAME, self.log)
 
     def SelectTemplateFile(self):
         if self.template_path_base is None:
@@ -65,7 +72,7 @@ class PdfPopulator:
         
         self.template_file_name = menu.SelectTemplateFile(self.template_files)
         template_file_path = f"{self.template_path_base}/{self.template_file_name}"
-        self.pdf_wrapper = PdfWrapper(template_file_path)
+        self.pdf_wrapper = PdfWrapper(template_file_path, self.log)
 
     def PopulatePdfTemplate(self):
         if self.wb_wrapper is None:
@@ -89,18 +96,8 @@ class PdfPopulator:
         output_pdf_file_name = self.GetNewPdfName()
         self.pdf_wrapper.SavePopulatedPdf(output_pdf_file_name)
         print(f"PDF {output_pdf_file_name} successfully generated")
+        self.log.info(f"PDF {output_pdf_file_name} successfully generated")
         input("Press Enter to continue...")
-
-    def FlattenPopulatedTemplate(self):
-        if self.pdf_wrapper is None:
-            error_msg = "No PDF Wrapper initialized. No PDF template to be flattened"
-            raise NoPdfWrapperInitializedError(error_msg)
-        self.pdf_wrapper.FlattenPdf()
-        output_pdf_file_name = self.GetNewPdfName()
-        self.pdf_wrapper.SavePopulatedPdf(output_pdf_file_name)
-        print(f"PDF {output_pdf_file_name} successfully flattened")
-        input("Press Enter to continue...")
-
         
     def GetNewPdfName(self):
         if self.wb_wrapper is None:

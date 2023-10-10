@@ -22,6 +22,7 @@ Once the download is complete, unzip the file and copy the `pdf populator.exe` f
 | 1.2     | Added a version manager                                   |
 | 1.3     | Added an executable to run the program                    |
 | 1.4     | Program now runs on a loop until exit is selected         |
+| 1.5     | Added logging and auto generate folders on first run      |
 
 ## Dev note
 Making a new build, run the following command in the root of the directory

@@ -1,9 +1,11 @@
 import openpyxl
+import logging
 from ..exceptions.PythonDataSheetNotFoundException import PythonDataSheetNotFoundException
 
 
 class WorkbookWrapper:
-    def __init__(self, excel_file_path, data_sheet_name: str):
+    def __init__(self, excel_file_path, data_sheet_name: str, log: logging.Logger):
+        self.log = log
         self.wb = openpyxl.load_workbook(excel_file_path, data_only=True)
         self.data = {}
         self.data_sheet_name = data_sheet_name
@@ -27,4 +29,5 @@ class WorkbookWrapper:
             if key in key_to_look_up:
                 return self.data[key]
         print(f"Could not find key {key_to_look_up} within {self.data_sheet_name}")
+        self.log.warning(f"Could not find key {key_to_look_up} within {self.data_sheet_name}")
         return None

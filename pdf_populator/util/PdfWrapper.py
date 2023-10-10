@@ -1,9 +1,11 @@
 import pdfrw
+import logging
 from ..config import PdfPopulatorConfig as config
 
 class PdfWrapper:
-    def __init__(self, pdf_template_file_path: str):
+    def __init__(self, pdf_template_file_path: str, log: logging.Logger):
         self.pdf_template = pdfrw.PdfReader(pdf_template_file_path)
+        self.log = log
         self.pdf_template
         self.annotation_fields = []
         self.LoadAnnotationFields()
@@ -26,8 +28,10 @@ class PdfWrapper:
                     string_value = str(value)
                     annotation.update(pdfrw.PdfDict(V=string_value, DA=f"/Helv {config.FONT_SIZE} Tf 0 g"))
                     print(f"Updated field {field_to_update} with value {string_value}")
+                    self.log.info(f"Updated field {field_to_update} with value {string_value}")
                     return
         print(f"Couldn't find the field {field_to_update} to be updated")
+        self.log.warning(f"Couldn't find the field {field_to_update} to be updated")
         return
 
     def SavePopulatedPdf(self, new_file_name):
