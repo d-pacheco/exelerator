@@ -11,21 +11,33 @@ from pdf_populator.exceptions.PdfFillerException import PdfFillerException
 
 DATA_SHEET_NAME = "Python Data"     # The name of sheet in excel that contains the field names and their values
 CLIENT_FIELD_NAME = "clientname1_field"
-TEMPLATE_BASE_PATH = "/templates"
-DATA_BASE_PATH = "/data"
+TEMPLATE_FOLDER_NAME = "templates"
+EXCEL_FOLDER_NAME = "data"
 
 def main():
     VersionManager.isLatestVersion()
     
-    template_path_base = PathFinder.findTemplatePath(TEMPLATE_BASE_PATH)
+    template_path_base = PathFinder.findFolderPath(TEMPLATE_FOLDER_NAME)
+    if template_path_base is None:
+        print("Could not find templates folder")
+        input("Press Enter to exit")
+        return
     template_name = MenuSelector.SelectTemplateFile(template_path_base)
     if template_name is None:
+        print(f"There are no template files available to select from")
+        input("Press Enter to exit")
         return
     template_file_path = f"{template_path_base}/{template_name}"
 
-    data_path_base = PathFinder.findDataPath(DATA_BASE_PATH)
+    data_path_base = PathFinder.findFolderPath(EXCEL_FOLDER_NAME)
+    if data_path_base is None:
+        print("Could not find data folder")
+        input("Press Enter to exit")
+        return
     excel_name = MenuSelector.SelectDataFile(data_path_base)
     if excel_name is None:
+        print(f"There are no excel files available to select from")
+        input("Press Enter to exit")
         return
     excel_file_path = f"{data_path_base}/{excel_name}"
 
@@ -46,6 +58,8 @@ def main():
     template_name = template_name.lower()
     output_pdf_file = template_name.replace("template", client_name)
     pdf_wrapper.SavePopulatedPdf(output_pdf_file)
+    print(f"PDF {output_pdf_file} successfully generated")
+    input("Press Enter to exit...")
 
 if __name__ == "__main__":
     try:

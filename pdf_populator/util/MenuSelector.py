@@ -8,7 +8,6 @@ def SelectTemplateFile(template_path):
         print("Select which file you would like to generate from template:")
         return DisplayFileSelection(template_files)
     else:
-        print(f"There are no template files available to select from")
         return None
     
 def SelectDataFile(data_path):
@@ -17,7 +16,6 @@ def SelectDataFile(data_path):
         print("Select which file you would like to populate your template with:")
         return DisplayFileSelection(data_files)
     else:
-        print(f"There are no excel files available to select from")
         return None
 
 def DisplayFileSelection(file_names):
