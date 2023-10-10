@@ -3,8 +3,8 @@ from ..exceptions.PythonDataSheetNotFoundException import PythonDataSheetNotFoun
 
 
 class WorkbookWrapper:
-    def __init__(self, wb: openpyxl.Workbook, data_sheet_name: str):
-        self.wb = wb
+    def __init__(self, excel_file_path, data_sheet_name: str):
+        self.wb = openpyxl.load_workbook(excel_file_path, data_only=True)
         self.data = {}
         self.data_sheet_name = data_sheet_name
         if self.data_sheet_name not in self.wb.sheetnames:
