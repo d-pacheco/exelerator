@@ -1,22 +1,41 @@
+import os
 from os import listdir
 from os.path import isfile, join
+from .MenuOptions import MainMenuOptions
 
+class MenuSelector:
 
-def SelectTemplateFile(template_path):
-    template_files = [f for f in listdir(template_path) if isfile(join(template_path, f))]
-    if len(template_files) != 0:
+    def clear_screen(self):
+        if os.name == 'nt':
+            os.system('cls')
+        else:
+            os.system('clear')
+
+    def GetMainMenuSelection(self):
+        return self.DisplayOptionMenu(MainMenuOptions.options)
+
+    def SelectTemplateFile(self, template_files):
         print("Select which file you would like to generate from template:")
         return DisplayFileSelection(template_files)
-    else:
-        return None
-    
-def SelectDataFile(data_path):
-    data_files = [f for f in listdir(data_path) if isfile(join(data_path, f))]
-    if len(data_files) != 0:
+        
+    def SelectDataFile(self, excel_files):
         print("Select which file you would like to populate your template with:")
-        return DisplayFileSelection(data_files)
-    else:
-        return None
+        return DisplayFileSelection(excel_files)
+    
+    def DisplayOptionMenu(self, options):
+        valid_input = False
+        while not valid_input:
+            self.clear_screen()
+            for i in range(len(options)):
+                print(f"{i+1}. {options[i][0]}")
+            user_input = input("Select an option: ")
+            try:
+                index = int(user_input)
+                if index < 1 or index > len(options):
+                    continue
+                return options[index - 1][1]
+            except:
+                pass
 
 def DisplayFileSelection(file_names):
     index = 1
