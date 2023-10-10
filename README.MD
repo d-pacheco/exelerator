@@ -17,10 +17,11 @@ Once the download is complete, unzip the file and copy the `pdf populator.exe` f
 ## Version History
 | Version | Changes                                                   |
 |---------|-----------------------------------------------------------|
-| 1.0     | initial version                                          |
+| 1.0     | initial version                                           |
 | 1.1     | Fixed bug where numbers weren't populated in pdf properly |
 | 1.2     | Added a version manager                                   |
 | 1.3     | Added an executable to run the program                    |
+| 1.4     | Program now runs on a loop until exit is selected         |
 
 ## Dev note
 Making a new build, run the following command in the root of the directory
