@@ -1,6 +1,7 @@
 import logging
 from pathlib import Path
-from .config import PdfPopulatorConfig as config
+from .util.Config import Config
+from .util.Config import DefaultConfigKeys
 from .util.WorkbookWrapper import WorkbookWrapper
 from .util.PdfWrapper import PdfWrapper
 from .util.PathHelper import PathHelper
@@ -15,11 +16,15 @@ from .exceptions.NoPdfWrapperInitializedError import NoPdfWrapperInitializedErro
 
 menu = MenuSelector()
 
+EXCEL_FOLDER_NAME = "data"
+TEMPLATE_FOLDER_NAME = "templates"
+
 class PdfPopulator:
 
-    def __init__(self, path_helper: PathHelper, log: logging.Logger):
+    def __init__(self, path_helper: PathHelper, log: logging.Logger, config: Config):
         self.path_helper = path_helper
         self.log = log
+        self.config = config
 
         self.data_path_base = None
         self.excel_files = []
@@ -32,12 +37,12 @@ class PdfPopulator:
         self.wb_wrapper = None
         self.pdf_wrapper = None
 
-        Path("./data/").mkdir(parents=True, exist_ok=True)
-        Path("./templates/").mkdir(parents=True, exist_ok=True)
+        Path(f"./{EXCEL_FOLDER_NAME}/").mkdir(parents=True, exist_ok=True)
+        Path(f"./{TEMPLATE_FOLDER_NAME}/").mkdir(parents=True, exist_ok=True)
 
     def LoadData(self):
         
-        self.data_path_base = self.path_helper.findFolderPath(config.EXCEL_FOLDER_NAME)
+        self.data_path_base = self.path_helper.findFolderPath(EXCEL_FOLDER_NAME)
         if self.data_path_base is None:
             raise NoDataFolderFoundException()
         
@@ -46,7 +51,7 @@ class PdfPopulator:
             raise NoExcelFilesFoundException(self.data_path_base)
 
     def LoadTemplates(self):
-        self.template_path_base = self.path_helper.findFolderPath(config.TEMPLATE_FOLDER_NAME)
+        self.template_path_base = self.path_helper.findFolderPath(TEMPLATE_FOLDER_NAME)
         if self.template_path_base is None:
             raise NoTemplateFolderFoundException()
         
@@ -62,7 +67,11 @@ class PdfPopulator:
         
         self.excel_file_name = menu.SelectDataFile(self.excel_files)
         excel_file_path = f"{self.data_path_base}/{self.excel_file_name}"
-        self.wb_wrapper = WorkbookWrapper(excel_file_path, config.DATA_SHEET_NAME, self.log)
+        self.wb_wrapper = WorkbookWrapper(
+            excel_file_path, 
+            self.config.GetConfigValue(DefaultConfigKeys.DATA_SHEET_NAME), 
+            self.log
+        )
 
     def SelectTemplateFile(self):
         if self.template_path_base is None:
@@ -72,7 +81,7 @@ class PdfPopulator:
         
         self.template_file_name = menu.SelectTemplateFile(self.template_files)
         template_file_path = f"{self.template_path_base}/{self.template_file_name}"
-        self.pdf_wrapper = PdfWrapper(template_file_path, self.log)
+        self.pdf_wrapper = PdfWrapper(template_file_path, self.log, self.config)
 
     def PopulatePdfTemplate(self):
         if self.wb_wrapper is None:
@@ -103,7 +112,7 @@ class PdfPopulator:
         if self.wb_wrapper is None:
             error_msg = "No Workbook Wrapper initialized. Cannot load data client name."
             raise NoWbWrapperInitializedError(error_msg)
-        client_name = self.wb_wrapper.GetValueFromKey(config.CLIENT_FIELD_NAME)
+        client_name = self.wb_wrapper.GetValueFromKey(self.config.GetConfigValue(DefaultConfigKeys.CLIENT_FIELD_NAME))
         if client_name is None:
             client_name = ""
         template_name_lower = self.template_file_name.lower()

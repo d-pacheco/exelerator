@@ -1,11 +1,13 @@
 import pdfrw
 import logging
-from ..config import PdfPopulatorConfig as config
+from .Config import Config
+from .Config import DefaultConfigKeys
 
 class PdfWrapper:
-    def __init__(self, pdf_template_file_path: str, log: logging.Logger):
+    def __init__(self, pdf_template_file_path: str, log: logging.Logger, config: Config):
         self.pdf_template = pdfrw.PdfReader(pdf_template_file_path)
         self.log = log
+        self.config = config
         self.pdf_template
         self.annotation_fields = []
         self.LoadAnnotationFields()
@@ -26,7 +28,10 @@ class PdfWrapper:
             for annotation in annotations:
                 if annotation['/T'] == field_to_update:
                     string_value = str(value)
-                    annotation.update(pdfrw.PdfDict(V=string_value, DA=f"/Helv {config.FONT_SIZE} Tf 0 g"))
+                    annotation.update(pdfrw.PdfDict(
+                        V=string_value, 
+                        DA=f"/Helv {self.config.GetConfigValue(DefaultConfigKeys.FONT_SIZE)} Tf 0 g"
+                    ))
                     print(f"Updated field {field_to_update} with value {string_value}")
                     self.log.info(f"Updated field {field_to_update} with value {string_value}")
                     return

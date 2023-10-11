@@ -5,6 +5,7 @@ from pdf_populator.util.MenuOptions import MainMenuOptions
 from pdf_populator.exceptions.PdfFillerException import PdfFillerException
 from pdf_populator.PdfPopulator import PdfPopulator
 from pdf_populator.util.Logger import Logger
+from pdf_populator.util.Config import Config
 
 
 DEBUG_MODE = False
@@ -15,8 +16,9 @@ def main():
     VersionManager.isLatestVersion()
 
     log = Logger.create_logger(DEBUG_MODE)
+    config = Config()
     path_helper = PathHelper(DEBUG_MODE)
-    pdf_populator = PdfPopulator(path_helper, log)
+    pdf_populator = PdfPopulator(path_helper, log, config)
     menu = MenuSelector()
 
     try:
