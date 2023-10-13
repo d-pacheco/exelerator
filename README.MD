@@ -1,9 +1,9 @@
-# pdf-populator
+# Exelerator
 A Python program for populating a pdf from an excel spreadsheet
 
 
-## Running the pdf populator
-- next to `pdf populator.exe` have a `templates` and `data` folder. These should be automatically generated the first time you run `pdf populator.exe`
+## Running the Exelerator
+- next to `Exelerator.exe` have a `templates` and `data` folder. These should be automatically generated the first time you run `Exelerator.exe`
     - Inside of the templates folder place your template pdfs with the name structure "FileName - Template"
         - Where the FileName is the name of the template, and "- Template" is to inddicate that it is a tempalte file
         - Template will be replaced by the clientname1_fieldd outlined in the data sheet
@@ -23,10 +23,10 @@ A Python program for populating a pdf from an excel spreadsheet
 | fundamountredemption1_field   | 100                       |
 
 
-## Upgrading your pdf populator
+## Upgrading your Exelerator
 When an update is available, go the specified url and download the source.zip file.
-Once the download is complete, unzip the file and copy the `pdf populator.exe` file and replace 
-your current `pdf populator.exe` file
+Once the download is complete, unzip the file and copy the `Exelerator.exe` file and replace 
+your current `Excelerator.exe` file
 
 
 ## Default Config Explanation
@@ -45,8 +45,9 @@ your current `pdf populator.exe` file
 | 1.4     | Program now runs on a loop until exit is selected          |
 | 1.5     | Added logging and auto generate folders on first run       |
 | 1.6     | Added a config file to be generated and verified on launch |
+| 1.7     | Fixed an issues with child and parent annotations          |
 
 
 ## Dev note
 Making a new build, run the following command in the root of the directory
-`python -m PyInstaller -F main.py -n 'pdf populator'`
+`python -m PyInstaller -F main.py -n 'Exelerator'`
