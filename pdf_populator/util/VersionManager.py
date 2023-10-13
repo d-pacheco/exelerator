@@ -1,7 +1,7 @@
 import requests as req
 
 
-CURRENT_VERSION = 1.6
+CURRENT_VERSION = 1.7
 
 class VersionManager:
 
