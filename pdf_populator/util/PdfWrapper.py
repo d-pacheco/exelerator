@@ -36,6 +36,7 @@ class PdfWrapper:
                     return
                 elif annotation['/T'] == None and annotation['/Parent']['/T'] == field_to_update:
                     self.UpdateAnnotationFieldHelper(annotation['/Parent'], field_to_update, value)
+                    return
 
         print(f"Couldn't find the field {field_to_update} to be updated")
         self.log.warning(f"Couldn't find the field {field_to_update} to be updated")
