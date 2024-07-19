@@ -16,7 +16,7 @@ git checkout --orphan "$BRANCH_NAME"
 git rm -rf .
 
 # Restore the desired files from the master branch
-git checkout main -- readme.md exelerator.exe
+git checkout main -- README.MD Exelerator.exe
 
 # Commit the changes
 git commit -m "Initial commit with only readme.md and exelerator.exe for version $1"
