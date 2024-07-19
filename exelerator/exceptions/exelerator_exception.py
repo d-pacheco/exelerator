@@ -1,0 +1,2 @@
+class ExeleratorException(Exception):
+    pass

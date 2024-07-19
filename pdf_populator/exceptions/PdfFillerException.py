@@ -1,2 +1,0 @@
-class PdfFillerException(Exception):
-    pass

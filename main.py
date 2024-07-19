@@ -1,56 +1,66 @@
-from pdf_populator.util.PathHelper import PathHelper
-from pdf_populator.util.VersionManager import VersionManager
-from pdf_populator.util.MenuSelector import MenuSelector
-from pdf_populator.util.MenuOptions import MainMenuOptions
-from pdf_populator.exceptions.PdfFillerException import PdfFillerException
-from pdf_populator.PdfPopulator import PdfPopulator
-from pdf_populator.util.Logger import Logger
-from pdf_populator.util.Config import Config
-
+from colorama import init, Fore, Style
+import logging
+from exelerator.util.path_helper import PathHelper
+from exelerator.version_manager import VersionManager
+from exelerator.menu_selector import MenuSelector, MainMenuOptions
+from exelerator.exceptions.exelerator_exception import ExeleratorException
+from exelerator.exelerator import Exelerator
+from exelerator.util.logger import configure_logger
+from exelerator.util.config import Config
 
 DEBUG_MODE = False
 if DEBUG_MODE:
     print("RUNNING IN DEBUG MODE")
 
-def main():
-    VersionManager.isLatestVersion()
+CURRENT_VERSION = 1.7
 
-    log = Logger.create_logger(DEBUG_MODE)
+init()  # Initialize colorama
+configure_logger(DEBUG_MODE)
+logger = logging.getLogger("exelerator")
+
+
+def print_startup_messages():
+    print(Fore.CYAN + "#############################################")
+    print(Fore.CYAN + "#                                           #")
+    print(Fore.CYAN + "#           Welcome to Exelerator           #")
+    print(Fore.CYAN + f"#                   v{CURRENT_VERSION}                    #")
+    print(Fore.CYAN + "#                                           #")
+    print(Fore.CYAN + "#############################################")
+
+    if not VersionManager.is_latest_version(CURRENT_VERSION):
+        print(Fore.RED + "!!! New version is available !!!")
+        print(Fore.RED + "Download it from: https://github.com/d-pacheco/pdf-populator/releases/latest")
+    print(Style.RESET_ALL)
+
+
+def main():
+    print_startup_messages()
     config = Config()
     path_helper = PathHelper(DEBUG_MODE)
-    pdf_populator = PdfPopulator(path_helper, log, config)
-    menu = MenuSelector()
+    pdf_populater = Exelerator(path_helper, config)
 
     try:
-        pdf_populator.LoadData()
-        pdf_populator.LoadTemplates()
-        pdf_populator.SelectExcelFile()
+        wb_wrapper = pdf_populater.load_workbook()
 
         exit_program = False
         while not exit_program:
-            main_menu_selection = menu.GetMainMenuSelection()
+            main_menu_selection = MenuSelector.display_option_menu()
             if main_menu_selection == MainMenuOptions.POPULATE_PDF:
-                pdf_populator.SelectTemplateFile()
-                pdf_populator.PopulatePdfTemplate()
-                pdf_populator.SavePopulatedTemplate()
-
+                pdf_populater.populate_pdf(wb_wrapper)
             elif main_menu_selection == MainMenuOptions.RELOAD:
-                pdf_populator.LoadData()
-                pdf_populator.LoadTemplates()
-                pdf_populator.SelectExcelFile()
-
+                wb_wrapper = pdf_populater.load_workbook()
             elif main_menu_selection == MainMenuOptions.EXIT:
                 exit_program = True
-    except Exception as e:
-        log.error(f"An error has occured: {e}")
-        raise e
+
+    except Exception as pdf_populater_exception:
+        raise pdf_populater_exception
+
 
 if __name__ == "__main__":
     try:
         main()
     except (KeyboardInterrupt, SystemExit):
         print("Exiting...")
-        input("Press Enter to exit...")
-    except PdfFillerException as e:
-        print(f"An error has occured: {e}")
+    except ExeleratorException as e:
+        logger.error(f"An error has occurred: {e}")
         input("Press Enter to exit...")
