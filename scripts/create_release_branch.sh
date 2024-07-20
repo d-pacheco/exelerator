@@ -15,7 +15,8 @@ git checkout --orphan "$BRANCH_NAME"
 # Remove all files from the new branch
 git rm -rf .
 
-# Restore the desired files from the master branch
+# Restore the desired files from the main branch
+git fetch --all
 git checkout main -- README.MD Exelerator.exe
 
 # Commit the changes
