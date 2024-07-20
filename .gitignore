@@ -1,8 +1,8 @@
-# Ignore pdf files
-*.pdf
-
-# Ignore excel files
-*.xlsm
+/data
+/generated
+/logs
+/templates
+config.cfg
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

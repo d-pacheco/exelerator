@@ -41,16 +41,17 @@ generating the PDF file name
 
 
 ## Version History
-| Version | Changes                                                    |
-|:-------:|------------------------------------------------------------|
-|   1.0   | initial version                                            |
-|   1.1   | Fixed bug where numbers weren't populated in pdf properly  |
-|   1.2   | Added a version manager                                    |
-|   1.3   | Added an executable to run the program                     |
-|   1.4   | Program now runs on a loop until exit is selected          |
-|   1.5   | Added logging and auto generate folders on first run       |
-|   1.6   | Added a config file to be generated and verified on launch |
-|   1.7   | Fixed an issues with child and parent annotations          |
+| Version | Changes                                                                                                                                           |
+|:-------:|---------------------------------------------------------------------------------------------------------------------------------------------------|
+|   1.0   | initial version                                                                                                                                   |
+|   1.1   | Fixed bug where numbers weren't populated in pdf properly                                                                                         |
+|   1.2   | Added a version manager                                                                                                                           |
+|   1.3   | Added an executable to run the program                                                                                                            |
+|   1.4   | Program now runs on a loop until exit is selected                                                                                                 |
+|   1.5   | Added logging and auto generate folders on first run                                                                                              |
+|   1.6   | Added a config file to be generated and verified on launch                                                                                        |
+|   1.7   | Fixed an issues with child and parent annotations                                                                                                 |
+|   1.8   | - Improved console experience<br/>- Automatically selects excel file if only one is available<br/>- Folder `generated` created for populated PDFs |
 
 
 ## Dev note

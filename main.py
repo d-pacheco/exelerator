@@ -12,7 +12,7 @@ DEBUG_MODE = False
 if DEBUG_MODE:
     print("RUNNING IN DEBUG MODE")
 
-CURRENT_VERSION = 1.7
+CURRENT_VERSION = 1.8
 
 init()  # Initialize colorama
 configure_logger(DEBUG_MODE)
@@ -29,7 +29,7 @@ def print_startup_messages():
 
     if not VersionManager.is_latest_version(CURRENT_VERSION):
         print(Fore.RED + "!!! New version is available !!!")
-        print(Fore.RED + "Download it from: https://github.com/d-pacheco/pdf-populator/releases/latest")
+        print(Fore.RED + "Download it from: https://github.com/d-pacheco/exelerator/releases/latest")
     print(Style.RESET_ALL)
 
 
