@@ -7,7 +7,7 @@ if [ -z "$1" ]; then
 fi
 
 # Set the branch name
-BRANCH_NAME="v$1"
+BRANCH_NAME="release/v$1"
 
 # Create a new orphan branch
 git checkout --orphan "$BRANCH_NAME"
@@ -19,7 +19,7 @@ git rm -rf .
 git checkout main -- README.MD Exelerator.exe
 
 # Commit the changes
-git commit -m "Initial commit with only readme.md and exelerator.exe for version $1"
+git commit -m "Release commit for version $1"
 
 # Push the new branch to the remote repository
 git push origin "$BRANCH_NAME"
