@@ -20,7 +20,7 @@ class Exelerator:
         self.config = config
 
     def load_workbook(self) -> WorkbookWrapper:
-        data_path_base = self.path_helper.find_folder_path(FolderNames.EXCEL_FOLDER_NAME)
+        data_path_base = self.path_helper.find_path(FolderNames.EXCEL_FOLDER_NAME)
         if data_path_base is None:
             raise NoFolderFoundException(FolderNames.EXCEL_FOLDER_NAME)
         excel_files = self.path_helper.load_files_in_folder(data_path_base)
@@ -68,7 +68,7 @@ def get_new_pdf_name(wb_wrapper: WorkbookWrapper, config: Config, template_file_
 
 
 def get_template_path_base(path_helper: PathHelper) -> str:
-    template_path_base = path_helper.find_folder_path(FolderNames.TEMPLATE_FOLDER_NAME)
+    template_path_base = path_helper.find_path(FolderNames.TEMPLATE_FOLDER_NAME)
     if template_path_base is None:
         raise NoFolderFoundException(FolderNames.TEMPLATE_FOLDER_NAME)
     return template_path_base

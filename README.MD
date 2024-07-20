@@ -52,6 +52,7 @@ generating the PDF file name
 |   1.6   | Added a config file to be generated and verified on launch                                                                                        |
 |   1.7   | Fixed an issues with child and parent annotations                                                                                                 |
 |   1.8   | - Improved console experience<br/>- Automatically selects excel file if only one is available<br/>- Folder `generated` created for populated PDFs |
+|   1.9   | When a new upgrade is available, program will prompt user and if yes, automatically download and launch new version                               |
 
 
 ## Dev note

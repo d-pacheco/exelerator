@@ -9,7 +9,7 @@ class PathHelper:
     def __init__(self, debug_mode: bool):
         self.debug_mode = debug_mode
 
-    def find_folder_path(self, folder_name: str):
+    def find_path(self, folder_name: str):
         if self.debug_mode:
             # Get the absolute path to the directory containing the script
             curr_dir = os.path.dirname(os.path.abspath(__file__))
